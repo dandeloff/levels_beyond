@@ -2,7 +2,7 @@ levels beyond project
 =====================
 
 
-##/backend
+##backend/
 
 
 Contains all project files related to the Backend project.
@@ -10,29 +10,29 @@ Contains all project files related to the Backend project.
 Contents
 --------
 
-####/Notes
+####Notes/
 
 * Folder for nodejs project.
 * Contains all necessary files and libraries.
 
-####/notes.sql
+####notes.sql
 
 * sql script for creating necessary database and table.
 
 
 
-##/frontend
+##frontend/
 
 Contains all files related to the Front End project.
 
 Contents
 --------
 
-####/front_end.html
+####front_end.html
 
 * Html script for displaying issues relevant to project.
 
-####/js
+####js/
 
 * Folder contain extra script for pagination.
 
