@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<style>
+		body {
+			margin: 15px;
+		}
+		td {
+			max-width: 25%;
+			overflow-x: scroll;
+		}
+		</style>
+	</head>
+	<body>
+
+		<div class="row">
+			<div class="col-md-12">
+				<table id="issues" class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>User Login</th>
+							<th>Assignee Login</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+				<div id="pagination"></div>
+			</div>
+		</div>
+
+		<script
+			src="https://code.jquery.com/jquery-3.1.1.min.js"
+			integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+			crossorigin="anonymous"></script>
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript" charset="utf-8" ></script>
+
+		<script src="js/jquery.paging.min.js" type="text/javascript" charset="utf-8" ></script>
+
+		<script type="text/javascript" charset="utf-8">
+		var pages = new Array();
+		var n = get_week_ago();
+
+		$.ajax('https://api.github.com/search/issues?q=repo:angular%2Fangular+created:>'+n, {
+
+		}).done(function( data, status, request ) {
+			var links = request.getResponseHeader('Link');
+			var matches = links.match(/page=(\d+)/g);
+			var last = matches[1].split("=")[1];
+
+			$('#pagination').paging(last*30, {
+				format: '[< cnnnnnnn >]',
+				perpage: 30,
+				onSelect: function(page) {
+					if (pages[page] != null) {
+						$('#issues tbody').remove();
+						$('#issues').append(pages[page]);
+
+						$('td.title').click(function() {
+							if ($(this).parent().next().is(":visible")) {
+								$(this).parent().next().hide();
+							} else {
+								$(this).parent().next().show();
+							}
+						});
+					} else {
+						$.ajax('https://api.github.com/search/issues?q=repo:angular%2Fangular+created:>'+n+'&page='+page, {
+
+
+						}).done(function ( data ) {
+							$('#issues tbody').remove();
+							var issues = data.items;
+							$tbody = add_to_table(issues);
+							pages[page] = $tbody.clone();
+							$('#issues').append($tbody);
+
+							$('td.title').click(function() {
+								if ($(this).parent().next().is(":visible")) {
+									$(this).parent().next().hide();
+								} else {
+									$(this).parent().next().show();
+								}
+							});
+						});
+					}
+
+				},
+				onFormat: function(type) {
+					switch (type) {
+						case 'block': // n and c
+							return '<a href="#" class="btn btn-default">' + this.value + '</a>';
+						case 'next': // >
+							return '<a href="#" class="btn btn-default">&gt;</a>';
+						case 'prev': // <
+							return '<a href="#" class="btn btn-default">&lt;</a>';
+						case 'first': // [
+							return '<a href="#" class="btn btn-default">first</a>';
+						case 'last': // ]
+							return '<a href="#" class="btn btn-default">last</a>';
+					}
+				}
+			});
+		});
+
+		function add_to_table(data) {
+			$tbody = $('<tbody></tbody>');
+			$.each(data, function (key, value) {
+				var assignee = (value.assignee === null) ? "":value.assignee.login;
+				var user = (value.user === null) ? "":value.user.login;
+				var title = value.title;
+				var body = value.body;
+
+				$tbody.append('<tr><td class="title">'+title+'</td><td>'+user+'</td><td>'+assignee+'</td></tr><tr style="display:none;"><td class="body active" colspan="3">'+body+'</td></tr>');
+
+			});
+
+			return $tbody;
+		}
+
+		function get_week_ago() {
+			var d = new Date();
+			d.setDate(d.getDate() - 7);
+			var day = d.getDate();
+			var month = d.getMonth()+1;
+			var year = d.getFullYear();
+
+			if (day < 10) {
+				day = '0' + day;
+			}
+
+			if (month < 10) {
+				month = '0' + month;
+			}
+
+			d = year+'-'+month+'-'+day;
+			return d;
+		}
+		</script>
+
+	</body>
+</html>

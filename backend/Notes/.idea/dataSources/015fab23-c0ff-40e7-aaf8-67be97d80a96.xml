@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="levels_beyond_db@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
+    <root id="1"/>
+    <schema id="2" parent="1" name="levels_beyond_db">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="autoscan"/>
+    <schema id="4" parent="1" name="autoscan_david_demo"/>
+    <schema id="5" parent="1" name="autoscan_demo"/>
+    <schema id="6" parent="1" name="autoscan_FXCaprara"/>
+    <schema id="7" parent="1" name="autoscan_steverest"/>
+    <schema id="8" parent="1" name="auto_scan"/>
+    <schema id="9" parent="1" name="cake_blog_tutorial"/>
+    <schema id="10" parent="1" name="gvems_dmv"/>
+    <schema id="11" parent="1" name="gvems_security"/>
+    <schema id="12" parent="1" name="gvems_weather"/>
+    <schema id="13" parent="1" name="information_schema"/>
+    <schema id="14" parent="1" name="jetpet"/>
+    <schema id="15" parent="1" name="law_scan"/>
+    <schema id="16" parent="1" name="markup"/>
+    <schema id="17" parent="1" name="mysql"/>
+    <schema id="18" parent="1" name="notes_application"/>
+    <schema id="19" parent="1" name="performance_schema"/>
+    <schema id="20" parent="1" name="test"/>
+    <schema id="21" parent="1" name="vinlookup"/>
+    <table id="22" parent="2" name="notes"/>
+    <column id="23" parent="22" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="24" parent="22" name="body">
+      <Position>2</Position>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="25" parent="22" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="26" parent="22" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="27" parent="22" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
+    </key>
+  </database-model>
+</dataSource>
